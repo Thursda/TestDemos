@@ -45,11 +45,17 @@
         [self addSubview:track];
     }
     _tracks = [tracks copy];
-    [_tracks mas_distributeViewsAlongAxis:(MASAxisTypeVertical) withFixedSpacing:_margin leadSpacing:0 tailSpacing:0];
-    [_tracks mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(self.mas_width);
-    }];
-//    self.backgroundColor = [UIColor brownColor];
+    if (_numberOfRows > 1) {
+        [_tracks mas_distributeViewsAlongAxis:(MASAxisTypeVertical) withFixedSpacing:_margin leadSpacing:0 tailSpacing:0];
+        [_tracks mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(self.mas_width);
+        }];
+    }else{
+        WLDanmakuTrackView *track = [_tracks firstObject];
+        [track mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self);
+        }];
+    }
 }
 
 - (instancetype)initWithFrame:(CGRect)frame{
@@ -72,12 +78,11 @@
 
 - (void)danmakuTrack:(WLDanmakuTrackView *)track cellDidDisappear:(WLDanmakuViewCell *)cell{
     if (cell) {
-        [cell removeFromSuperview];
         [self.cellCaches addObject:cell];
     }
 }
 
-#pragma mark - Publick
+#pragma mark - Publick Methods
 - (void)showDanmakus:(NSArray<id<WLDanmakuEntity>> *)danmakus{
     NSMutableArray<WLDanmakuTrackView *> *freeTracks = [NSMutableArray new];
     for (int i = 0; i < self.tracks.count; i++) {
@@ -116,28 +121,6 @@
 }
 
 #pragma mark - Private
-//根据cell的width确定动画的时间
-- (NSTimeInterval)animationDurationWithCell:(WLDanmakuViewCell *)cell width:(CGFloat)cellWdith{
-    return 1;
-}
-
-//将obj添加到数据源中
-- (void)addModel:(id)obj{
-
-}
-
-//从数据源中删除obj
-- (void)removeModel:(id)obj{
-
-}
-
-//从数据源中删除objs
-- (void)removeModels:(NSArray *)objs{
-}
-
-- (void)deleteBarrages:(NSArray<id> *)barrages{
-}
-
 - (void)pause{
     for (WLDanmakuTrackView *track in self.tracks) {
         [track pause];

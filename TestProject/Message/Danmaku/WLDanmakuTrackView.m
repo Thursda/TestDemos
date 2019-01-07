@@ -42,8 +42,8 @@ static const CGFloat kMargin = 40;
 }
 
 - (void)startAnimationForCell:(WLDanmakuViewCell *)cell{
-    CGPoint fromPoint = CGPointMake(self.width + CGRectGetWidth(cell.frame)/2, CGRectGetHeight(cell.frame)/2);
-    CGPoint toPoint = CGPointMake(CGRectGetWidth(cell.frame)/2-CGRectGetWidth(cell.frame),  CGRectGetHeight(cell.frame)/2);
+    CGPoint fromPoint = CGPointMake(self.width + CGRectGetWidth(cell.frame)/2, CGRectGetHeight(cell.frame)/2); //center origin
+    CGPoint toPoint = CGPointMake(CGRectGetWidth(cell.frame)/2-CGRectGetWidth(cell.frame),  CGRectGetHeight(cell.frame)/2);// center destination
     CGFloat duration = 5;
     //1.等速：所有弹幕从“开始出现”到“开始隐藏”时间相同，
     CGFloat velocity = self.width / 3.0;//4s 字幕的origin从左到右
@@ -94,9 +94,11 @@ static const CGFloat kMargin = 40;
     [self invalidateTimer:self.becommeFreeTimer];
 }
 
-
 #pragma mark - Delegate
 - (void)didEndDisplayDanmakuViewCell:(WLDanmakuViewCell *)cell{
+    [self.visibleCells removeObject:cell];
+    [cell removeFromSuperview];
+    [cell.layer removeAllAnimations];
     if (self.delegate && [self.delegate respondsToSelector:@selector(danmakuTrack:cellDidDisappear:)]) {
         [self.delegate danmakuTrack:self cellDidDisappear:cell];
     }
@@ -140,9 +142,8 @@ static const CGFloat kMargin = 40;
     NSEnumerator *animatingEnumerator = [self.visibleCells reverseObjectEnumerator];
     WLDanmakuViewCell *animatingCell = nil;
     while (animatingCell = [animatingEnumerator nextObject]){
-        [animatingCell resumeAnimation];
+        [animatingCell.layer removeAllAnimations];
         [animatingCell removeFromSuperview];
-        
     }
     [self.visibleCells removeAllObjects];
     [self invalidateTimer:self.becommeFreeTimer];

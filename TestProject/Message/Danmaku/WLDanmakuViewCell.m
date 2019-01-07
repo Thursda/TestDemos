@@ -92,7 +92,6 @@
     [layer removeAllAnimations];
 }
 
-
 #pragma mark - Delegate
 - (void)animationDidStart:(CAAnimation *)anim{
 

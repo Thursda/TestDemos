@@ -38,20 +38,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (WLDanmakuViewCell *)danmakuView:(WLDanmakuView *)danmakuView cellForDanmaku:(id<WLDanmakuEntity>)danmaku;
 
-@optional
-- (void)danmakuView:(WLDanmakuView *)danmakuView widthOfCell:(WLDanmakuViewCell *)cell;
-
 @end
 
 @interface WLDanmakuView : UIView
 
 @property (nonatomic, strong) id<WLDanmakuViewDataSource> dataSource;
-//@property (nonatomic, strong) id<WLDanmakuViewDelegate> delegate;
 
 @property (nonatomic, assign) NSUInteger numberOfRows;
 @property (nonatomic, assign) CGFloat rowHeght;
 @property (nonatomic, assign) CGFloat margin;
-
 
 // 弹幕从"开始出现"到"完全消失"的动画持续时间
 @property (nonatomic, assign) NSTimeInterval animationDuration;

@@ -47,6 +47,11 @@ static NSDictionary *kDanmakuAttributes;
     [self addDebugButton];
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.danmakuView clear];
+}
+
 - (void)addDanmakuView{
     self.danmakuView = [[WLDanmakuView alloc] initWithRowNumber:3 rowheight:40 margin:5];
     CGFloat height = 40 * 3 + 5 * 2;
